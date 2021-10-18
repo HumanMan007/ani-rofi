@@ -1,7 +1,7 @@
 all: install
 
 install:
-	cp ani-cli /usr/bin
+	cp ani-cli /usr/bin/ani-rofi
 
 uninstall:
-	rm -rf /usr/bin/ani-cli
+	rm -rf /usr/bin/ani-rofi
