@@ -126,7 +126,6 @@ dep_ch () {
 get_search_query () {
 	if [ -z "$*" ]; then
 		query=$(cat $logfile | sed 's/\s.*$//' | rofi -dmenu -mesg "Search Anime: ")
-		#notify-send "Query = $query"
 	else
 		query=$*
 	fi
@@ -152,9 +151,8 @@ anime_selection () {
 	EOF
 
 	# User input
-	choice=$(echo $results | head -n -1 | rofi -dmenu -mesg "Choose anime")
+	choice=$(echo -e "$results" | head -n -1 | rofi -dmenu -mesg "Choose anime")
 	choice=${choice%%[[:space:]]*}
-	#notify-send "Choice = $query"
 
 	# Check if input is a number
 	[ "$choice" -eq "$choice" ] 2>/dev/null || die "Invalid number entered"
@@ -187,7 +185,6 @@ episode_selection () {
 		printf "Range of episodes can be specified: start_number end_number\n"
 
 	ep_choices=$(seq $last_ep_number | rofi -dmenu -mesg "Choose episode")
-	#notify-send "Ep_choices = $ep_choices"
 	#read ep_choice_start ep_choice_end
 	#separate ep_choices into ep_choice_start ep_choice_end
 	ep_choice_start=$ep_choices
