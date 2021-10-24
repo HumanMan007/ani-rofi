@@ -1,7 +1,12 @@
+PREFIX := /usr/local
+
 all: install
 
 install:
-	cp ani-cli /usr/bin/ani-rofi
+	cp ani-cli $(DESTDIR)$(PREFIX)/bin/ani-rofi
+	chmod 0755 $(DESTDIR)$(PREFIX)/bin/ani-rofi
 
 uninstall:
-	rm -rf /usr/bin/ani-rofi
+	$(RM) $(DESTDIR)$(PREFIX)/bin/ani-rofi
+
+.PHONY: all install uninstall

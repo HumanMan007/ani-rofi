@@ -181,14 +181,18 @@ anime_selection () {
 ##################
 
 episode_selection () {
-	[ $is_download -eq 1 ] &&
-		printf "Range of episodes can be specified: start_number end_number\n"
 
-	ep_choices=$(seq $last_ep_number | rofi -dmenu -mesg "Choose episode")
-	#read ep_choice_start ep_choice_end
-	#separate ep_choices into ep_choice_start ep_choice_end
-	ep_choice_start=$ep_choices
+	ep_choice_start="1"
+	if [ $last_ep_number -gt 1 ] 
+	then
+		[ $is_download -eq 1 ] &&
+			printf "Range of episodes can be specified: start_number end_number\n"
 
+		ep_choices=$(seq $last_ep_number | rofi -dmenu -mesg "Choose episode")
+		#read ep_choice_start ep_choice_end
+		#separate ep_choices into ep_choice_start ep_choice_end
+		ep_choice_start=$ep_choices
+	fi
 }
 
 open_episode () {
