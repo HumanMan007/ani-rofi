@@ -151,7 +151,7 @@ anime_selection () {
 	EOF
 
 	# User input
-	choice=$( printf "$results" | head -n -1 | rofi -dmenu -mesg "Choose anime")
+	choice=$( printf "$results" | head -n -1 | rofi -dmenu -auto-select -mesg "Choose anime")
 	choice=${choice%%[[:space:]]*}
 
 	# Check if input is a number
@@ -182,17 +182,19 @@ anime_selection () {
 
 episode_selection () {
 
-	ep_choice_start="1"
-	if [ $last_ep_number -gt 1 ] 
-	then
-		[ $is_download -eq 1 ] &&
-			printf "Range of episodes can be specified: start_number end_number\n"
-
-		ep_choices=$(seq $last_ep_number | rofi -dmenu -mesg "Choose episode")
-		#read ep_choice_start ep_choice_end
-		#separate ep_choices into ep_choice_start ep_choice_end
-		ep_choice_start=$ep_choices
-	fi
+	message="Choose episode"
+	[ $is_download -eq 1 ] &&
+		message="Choose starting and finishing episodes" &&
+		multi="-multi-select"
+	
+	default="0"
+	[ "$(grep "${selection_id}" "$logfile")" != "" ] &&
+		default=$(sed -n -E "s/${selection_id}\t//p" "$logfile") 
+	
+	selected=$(seq $last_ep_number | rofi -dmenu $multi -auto-select -selected-row $default -mesg "$message")
+	ep_choice_start="${selected%% *}"
+	ep_choice_end=$(echo $selected | cut -d\  -f2)
+	
 }
 
 open_episode () {
