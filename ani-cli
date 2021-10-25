@@ -151,7 +151,7 @@ anime_selection () {
 	EOF
 
 	# User input
-	choice=$(echo -e "$results" | head -n -1 | rofi -dmenu -mesg "Choose anime")
+	choice=$( printf "$results" | head -n -1 | rofi -dmenu -mesg "Choose anime")
 	choice=${choice%%[[:space:]]*}
 
 	# Check if input is a number
@@ -241,7 +241,6 @@ open_episode () {
 ############
 
 # to clear the colors when exited using SIGINT
-trap "printf '$c_reset'" INT HUP
 
 dep_ch "$player_fn" "curl" "sed" "grep"
 
